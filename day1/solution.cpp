@@ -3,7 +3,6 @@
 #include <string>
 #include <queue>
 
-using std::cin;
 using std::cout;
 using std::ifstream;
 using std::string;
