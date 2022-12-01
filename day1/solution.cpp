@@ -24,10 +24,13 @@ int main() {
         }
     }
     
+    cout << "Part 1: " << q.top() << endl;
+
     int total = 0;
-    for (int i = 0; i < 3; ++i) {
+    const int NUM_TOP = 3;
+    for (int i = 0; i < NUM_TOP; ++i) {
         total += q.top();
         q.pop();
     }
-    cout << total << endl;
+    cout << "Part 2: " << total << endl;
 }
