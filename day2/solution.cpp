@@ -17,47 +17,33 @@ int main() {
     const int LOSE_PTS = 0;
     const int TIE_PTS = 3;
     const int WIN_PTS = 6;
-    
-    map<string, int> game_pts{
-        { "AX", TIE_PTS },
-        { "AY", WIN_PTS },
-        { "AZ", LOSE_PTS },
+
+    map<string, int> game_pts_pt1{
+        { "AX", ROCK_PTS + TIE_PTS },
+        { "AY", PAPER_PTS + WIN_PTS },
+        { "AZ", SCISSOR_PTS + LOSE_PTS },
         
-        { "BX", LOSE_PTS },
-        { "BY", TIE_PTS },
-        { "BZ", WIN_PTS },
+        { "BX", ROCK_PTS + LOSE_PTS },
+        { "BY", PAPER_PTS + TIE_PTS },
+        { "BZ", SCISSOR_PTS + WIN_PTS },
 
-        { "CX", WIN_PTS },
-        { "CY", LOSE_PTS },
-        { "CZ", TIE_PTS },
-
-        { "X", LOSE_PTS },
-        { "Y", TIE_PTS },
-        { "Z", WIN_PTS }
+        { "CX", ROCK_PTS + WIN_PTS },
+        { "CY", PAPER_PTS + LOSE_PTS },
+        { "CZ", SCISSOR_PTS + TIE_PTS },
     };
 
-    map<string, int> choice_pts{
-        { "X", ROCK_PTS },
-        { "Y", PAPER_PTS },
-        { "Z", SCISSOR_PTS },
+    map<string, int> game_pts_pt2{
+        { "AX", LOSE_PTS + SCISSOR_PTS },
+        { "AY", TIE_PTS + ROCK_PTS },
+        { "AZ", WIN_PTS + PAPER_PTS },
+        
+        { "BX", LOSE_PTS + ROCK_PTS },
+        { "BY", TIE_PTS + PAPER_PTS },
+        { "BZ", WIN_PTS + SCISSOR_PTS },
 
-        { "A", ROCK_PTS },
-        { "B", PAPER_PTS },
-        { "C", SCISSOR_PTS }
-    };
-
-    map<string, string> choice_map{
-        { "AX", "C" },
-        { "AY", "A" },
-        { "AZ", "B" },
-
-        { "BX", "A" },
-        { "BY", "B" },
-        { "BZ", "C" },
-
-        { "CX", "B" },
-        { "CY", "C" },
-        { "CZ", "A" }
+        { "CX", LOSE_PTS + PAPER_PTS },
+        { "CY", TIE_PTS + SCISSOR_PTS },
+        { "CZ", WIN_PTS + ROCK_PTS },
     };
 
     ifstream input("input.txt");
@@ -66,10 +52,8 @@ int main() {
     int total_points_pt2 = 0;
     string opp_move, result;
     while (input >> opp_move >> result) {
-        total_points_pt1 += game_pts[opp_move + result] + choice_pts[result];
-
-        string my_move = choice_map[opp_move + result];
-        total_points_pt2 += game_pts[result] + choice_pts[my_move];
+        total_points_pt1 += game_pts_pt1[opp_move + result];
+        total_points_pt2 += game_pts_pt2[opp_move + result];
     }
 
     cout << total_points_pt1 << endl;
