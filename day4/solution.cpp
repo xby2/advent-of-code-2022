@@ -17,11 +17,11 @@ int main() {
     while (input >> start1 >> delimeter >> end1 >> delimeter >> start2 >> delimeter >> end2) {
         if (start1 <= start2 && end1 >= end2) {
             ++num_fully_included;
-            ++num_overlap;
         } else if (start2 <= start1 && end2 >= end1) {
             ++num_fully_included;
-            ++num_overlap;
-        } else if (start1 <= start2 && end1 >= start2) {
+        } 
+        
+        if (start1 <= start2 && end1 >= start2) {
             ++num_overlap;
         } else if (start2 <= start1 && end2 >= start1) {
             ++num_overlap;
