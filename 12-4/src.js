@@ -1,0 +1,13 @@
+console.log(require('fs').readFileSync('./input.txt', 'utf8').split(/\s+/)
+    .map(v => v.split(','))
+    .map(v => v.map(a => a.split('-')))
+    .map(v => v.map(a => a.map(b => parseInt(b))))
+    .map(v => v[0][0] <= v[1][0] && v[0][1] >= v[1][1] || v[1][0] <= v[0][0] && v[1][1] >= v[0][1])
+    .reduce((x, v) => x + (v ? 1 : 0), 0))
+
+console.log(require('fs').readFileSync('./input.txt', 'utf8').split(/\s+/)
+    .map(v => v.split(','))
+    .map(v => v.map(a => a.split('-')))
+    .map(v => v.map(a => a.map(b => parseInt(b))))
+    .map(v => v[0][0] <= v[1][1] && v[0][1] >= v[1][0])
+    .reduce((x, v) => x + (v ? 1 : 0), 0))
