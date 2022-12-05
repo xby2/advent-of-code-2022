@@ -6,6 +6,7 @@
 #include <vector>
 
 using std::ifstream;
+using std::istream;
 using std::vector;
 using std::string;
 using std::cout;
@@ -13,8 +14,8 @@ using std::endl;
 using std::deque;
 using std::stringstream;
 
-void partOne(ifstream& input, vector<deque<char>>& stacks);
-void partTwo(ifstream& input, vector<deque<char>>& stacks);
+void partOne(istream& input, vector<deque<char>> stacks);
+void partTwo(istream& input, vector<deque<char>> stacks);
 
 int main() {
     ifstream input("input.txt");
@@ -42,20 +43,23 @@ int main() {
     // remove empty line
     getline(input, line);
 
-    // partOne(input, stacks);
-    partTwo(input, stacks);
+    // put in stringstream for re-use
+    stringstream instructions_p1;
+    stringstream instructions_p2;
 
-    for (auto stack : stacks) {
-        cout << stack.back();
+    while (getline(input, line)) {
+        instructions_p1 << line;
+        instructions_p2 << line;
     }
 
-    cout << endl;
+    partOne(instructions_p1, stacks);
+    partTwo(instructions_p2, stacks);
 }
 
-void partOne(ifstream& input, vector<deque<char>>& stacks) {
+void partOne(istream& instructions, vector<deque<char>> stacks) {
     string word;
     int count, from, to;
-    while(input >> word >> count >> word >> from >> word >> to) {
+    while(instructions >> word >> count >> word >> from >> word >> to) {
         --from;
         --to;
         for (int i = 0; i < count; ++i) {
@@ -64,12 +68,18 @@ void partOne(ifstream& input, vector<deque<char>>& stacks) {
             stacks[to].push_back(crate);
         }
     }
+
+    for (auto stack : stacks) {
+        cout << stack.back();
+    }
+
+    cout << endl;
 }
 
-void partTwo(ifstream& input, vector<deque<char>>& stacks) {
+void partTwo(istream& instructions, vector<deque<char>> stacks) {
     string word;
     int count, from, to;
-    while(input >> word >> count >> word >> from >> word >> to) {
+    while(instructions >> word >> count >> word >> from >> word >> to) {
         --from;
         --to;
         vector<char> to_move;
@@ -83,4 +93,10 @@ void partTwo(ifstream& input, vector<deque<char>>& stacks) {
             stacks[to].push_back(to_move[i]);
         }
     }
+
+    for (auto stack : stacks) {
+        cout << stack.back();
+    }
+
+    cout << endl;
 }
