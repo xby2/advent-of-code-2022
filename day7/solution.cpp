@@ -3,85 +3,55 @@
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <vector>
 
-using std::string;
+using std::vector;
+using std::ifstream;
 using std::map;
+using std::stringstream;
 using std::cout;
 using std::endl;
-using std::ifstream;
-using std::stringstream;
-using std::getline;
-
-struct File {
-    int size = 0;
-    string name;
-    File* parent;
-    map<string, File> files;
-};
-
-int get_dir_size(const File& file) {
-    int total = file.size;
-    for (const auto& p : file.files) {
-        total += get_dir_size(p.second);
-    }
-    return total;
-}
-
-string get_dir_name(const File* file) {
-    if (!file->parent) {
-        return file->name;
-    }
-
-    return get_dir_name(file->parent) + '/' + file->name;
-}
+using std::string;
 
 int main() {
     ifstream input("input.txt");
 
-    File root{0, "/", nullptr};
-    File* current_file = nullptr;
-    map<string, File*> dirs;
+    map<string, int> dir_sizes;
+    vector<string> path;
 
     string line;
     while (getline(input, line)) {
-        if (line[0] == '$') {
-            string cmd = line.substr(2, 2);
-            if (cmd == "cd") {
-                string dir = line.substr(5);
-                if (dir == "..") {
-                    current_file = current_file->parent;
-                } else if (dir == "/") {
-                    current_file = &root;
-                } else if (!current_file->files.contains(dir)) {
-                    current_file->files[dir] = File{ 0, dir, current_file };
-                    current_file = &(current_file->files[dir]);
-                    dirs[get_dir_name(current_file)] = current_file;
-                } else {
-                    current_file = &(current_file->files[dir]);
-                }
-            }
-            // don't need to do anything for ls
+        vector<string> inputs;
+        stringstream data(line);
+        string datum;
+        while (data >> datum) {
+            inputs.push_back(datum);
         }
-        else {
-            stringstream data(line);
-            string dir, name;
-            int size = 0;
-            if (data >> size) {
-                data >> name;
+        if (inputs[1] == "cd") {
+            if (inputs[2] == "..") {
+                path.pop_back();
             } else {
-                data >> dir >> name;
+                path.push_back(inputs[2]);
             }
-            if (!current_file->files.contains(name)) {
-                current_file->files[name] = File{ size, name, current_file };
+        } else if (inputs[1] == "ls") {
+            continue;
+        } else if (inputs[0] == "dir") {
+            continue;
+        } else {
+            string curr_path;
+            int size = stoi(inputs[0]);
+            for (string path_part : path) {
+                curr_path += path_part;
+                dir_sizes[curr_path] += size;
+                curr_path += "/";
             }
         }
     }
 
     int total = 0;
-    for (const auto& p : dirs) {
-        int size = get_dir_size(*(p.second));
-        if (size <= 100000) {
-            total += size;
+    for (const auto& p : dir_sizes) {
+        if (p.second <= 100000) {
+            total += p.second;
         }
     }
 
@@ -89,13 +59,14 @@ int main() {
 
     const int DISK_SPACE = 70000000;
     const int NEEDED_SPACE = 30000000;
-    int used_space = get_dir_size(root);
+    int max_allowed_use = DISK_SPACE - NEEDED_SPACE;
+    int used_space = dir_sizes["/"];
+    int needed_to_free = used_space - max_allowed_use;
 
     int min_file_size = used_space;
-    for (const auto& p : dirs) {
-        int size = get_dir_size(*(p.second));
-        if (DISK_SPACE - used_space + size >= NEEDED_SPACE && size < min_file_size) {
-            min_file_size = size;
+    for (const auto& p : dir_sizes) {
+        if (p.second >= needed_to_free && p.second < min_file_size) {
+            min_file_size = p.second;
         }
     }
 
