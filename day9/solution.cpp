@@ -44,21 +44,13 @@ public:
         if (is_adjacent(other)) {
             return;
         }
-        if (x == other.x) {
-            y += other.y > y ? 1 : -1;
-            return;
-        }
-        if (y == other.y) {
+        if (x != other.x) {
             x += other.x > x ? 1 : -1;
-            return;
         }
-        
-        y += other.y > y ? 1 : -1;
-        x += other.x > x ? 1 : -1;
-        
+        if (y != other.y) {
+            y += other.y > y ? 1 : -1;
+        }
     }
-
-    
 
     bool operator<(const Knot& r) const {
         if (x == r.x) return y < r.y;
@@ -111,7 +103,6 @@ int main() {
     char direction;
     int moves;
     while(input >> direction >> moves) {
-        cout << p2_rope << endl;
         for (int i = 0; i < moves; ++i) {
             p1_rope.move(direction);
             p2_rope.move(direction);
@@ -119,8 +110,6 @@ int main() {
             p2_tail_Knots.insert(p2_rope.get_tail());
         }
     }
-
-   cout << p2_rope << endl;
 
     cout << p1_tail_Knots.size() << endl;
     cout << p2_tail_Knots.size() << endl;
