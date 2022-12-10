@@ -11,7 +11,7 @@ using std::cout;
 using std::endl;
 
 
-void do_cycle(int x, int current_cycle, int& signal_strength_sum) {
+void do_cycle(int x, int& current_cycle, int& signal_strength_sum) {
     static const set<int> cycle_strength_checks = {20, 60, 100, 140, 180, 220};
 
     if (cycle_strength_checks.contains(current_cycle)) {
@@ -27,6 +27,8 @@ void do_cycle(int x, int current_cycle, int& signal_strength_sum) {
     } else {
         cout << ".";
     }
+
+    ++current_cycle;
 }
 
 int main() {
@@ -43,12 +45,9 @@ int main() {
         if (command == "addx") {
             int value;
             input >> value;
-            ++current_cycle;
             do_cycle(x, current_cycle, signal_strength_sum);
             x += value;
         }
-
-        ++current_cycle;
     }
 
     cout << "\n\n" << signal_strength_sum << endl;
