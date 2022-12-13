@@ -70,7 +70,7 @@ public:
 istream& operator>>(istream& is, List& rhs) {
     char bracket, comma;
     is >> bracket;
-    while (is.peek() != ']' && is.peek() != '\r' && is.peek() != '\n') {
+    while (is.peek() != ']') {
         if (is.peek() == '[') {
             List* list = new List();
             is >> *list;
@@ -191,7 +191,7 @@ int main() {
 
     uint ind1 = distance(lists.begin(), itr1) + 1;
     uint ind2 = distance(lists.begin(), itr2) + 1;
-    
+
     cout << ind1 * ind2 << endl;
 
 }
