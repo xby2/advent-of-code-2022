@@ -3,9 +3,18 @@
 #include <vector>
 #include <sstream>
 #include <set>
-#include <algorithm>
+#include <string>
 
-using namespace std;
+using std::vector;
+using std::pair;
+using std::stringstream;
+using std::set;
+using std::ifstream;
+using std::cout;
+using std::endl;
+using std::string;
+using std::max;
+using std::min;
 
 using RockFormation = vector<pair<int, int>>;
 
