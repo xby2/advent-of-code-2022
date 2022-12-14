@@ -1,0 +1,1 @@
+CXXFLAGS = -Wall -g -std=c++2a
