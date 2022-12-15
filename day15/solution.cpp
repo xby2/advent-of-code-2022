@@ -7,6 +7,7 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <bits/stdc++.h>
 
 using Point = std::pair<int, int>;
 
@@ -87,6 +88,7 @@ std::ostream& operator<<(std::ostream& os, const Sensor& s) {
 }
 
 int main() {
+    auto start = std::chrono::high_resolution_clock::now();
     std::ifstream input("input.txt");
 
     std::set<Sensor> sensors;
@@ -150,4 +152,7 @@ int main() {
     }
 
     std::cout << (long long)distress.first * MAX_COORD + distress.second << std::endl;
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    std::cout << duration.count() << " ms" << std::endl;
 }
